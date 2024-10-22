@@ -261,26 +261,21 @@ func (p *Parser) blockType() NodeType {
 		if p.peekCharX(PeekOnce) == ' ' {
 			return Quote
 		}
-		return Paragraph
-
 	case '-':
 		if p.peekCharX(PeekOnce) == ' ' {
 			return UnorderedList
 		}
-		return Paragraph
-
 	case '#':
 		return p.headingType()
-
 	default:
 		if p.isDigit(&p.ch) {
 			if p.isOrderedIdent() {
 				return OrderedList
 			}
-			return Paragraph
 		}
-		return Paragraph
 	}
+
+	return Paragraph
 }
 
 // ----------------------------------------------------------------------------------------------------------------
@@ -330,7 +325,6 @@ func (p *Parser) buildNestedorRead(start *int, targetSlice *[]HtmlNode) {
 // ----------------------------------------------------------------------------------------------------------------
 
 func (p *Parser) checkBoldNode() bool {
-
 	return p.ch == '*' && p.peekCharX(PeekOnce) == '*' && p.peekCharX(PeekTwice) != '*'
 }
 
@@ -439,19 +433,16 @@ func (p *Parser) isIdent() NodeType {
 		if p.peekCharX(PeekOnce) == '`' && p.peekCharX(PeekTwice) == '`' {
 			return Code
 		}
-		return PlainText
 	case '!':
 		if p.peekCharX(PeekOnce) == '[' {
 			return Image
 		}
-		return PlainText
 	case '[':
 		return Link
 	case '-':
 		if p.peekCharX(PeekOnce) == ' ' {
 			return UnorderedList
 		}
-		return PlainText
 	case '\\':
 		return Escaped
 	default:
@@ -459,10 +450,9 @@ func (p *Parser) isIdent() NodeType {
 			if p.isOrderedIdent() {
 				return OrderedList
 			}
-			return PlainText
 		}
-		return PlainText
 	}
+	return PlainText
 }
 
 // ----------------------------------------------------------------------------------------------------------------
